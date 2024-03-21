@@ -1,7 +1,9 @@
 Coding Raja internship task 2
 
 This spotify clone is for educational purpose
-Best viewed in desktop only [Here is Preview of project] - https://spotifyclonebysanket.netlify.app/
+
+
+Best viewed in (desktop only) [Here is Preview of project] - https://spotifyclonebysanket.netlify.app/
 
 Copyright Disclaimer:
 
