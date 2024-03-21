@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Clone</title>
+    <link rel="stylesheet" href="https://kit.fontawesome.com/23cecef777.js" crossorigin="anonymous">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #121212;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 196px;
+            background-color: #000000;
+            padding: 24px;
+        }
+
+        .sidebar .logo img {
+            width: 130px;
+        }
+
+        .sidebar .navigation ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .sidebar .navigation ul li {
+            padding: 10px 0px;
+        }
+
+        .sidebar .navigation ul li a {
+            color: #b3b3b3;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .sidebar .navigation ul li a:hover,
+        .sidebar .navigation ul li a:active,
+        .sidebar .navigation ul li a:focus {
+            color: #ffffff;
+        }
+
+        .sidebar .navigation ul li .fa {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .sidebar .policies {
+            position: absolute;
+            bottom: 100px;
+        }
+
+        .sidebar .policies ul {
+            list-style: none;
+        }
+
+        .sidebar .policies ul li {
+            padding-bottom: 5px;
+        }
+
+        .sidebar .policies ul li a {
+            color: #b3b3b3;
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 10px;
+        }
+
+        .sidebar .policies ul li a:hover,
+        .sidebar .policies ul li a:active,
+        .sidebar .policies ul li a:focus {
+            text-decoration: underline;
+        }
+
+        .main-container {
+            margin-left: 245px;
+            margin-bottom: 100px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #101010;
+            padding: 14px 30px;
+        }
+
+        .topbar .prev-next-buttons button {
+            color: #7a7a7a;
+            cursor: not-allowed;
+            width: 34px;
+            height: 34px;
+            border-radius: 100%;
+            font-size: 18px;
+            border: 0px;
+            background-color: #090909;
+            margin-right: 10px;
+        }
+
+        .topbar .navbar {
+            display: flex;
+            align-items: center;
+        }
+
+        .topbar .navbar ul {
+            list-style: none;
+        }
+
+        .topbar .navbar ul li {
+            display: inline-block;
+            margin: 0px 8px;
+            width: 70px;
+        }
+
+        .topbar .navbar ul li a {
+            color: #b3b3b3;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .topbar .navbar ul li a:hover,
+        .topbar .navbar ul li a:active,
+        .topbar .navbar ul li a:focus {
+            color: #ffffff;
+            font-size: 15px;
+        }
+
+        .topbar .navbar ul li.divider {
+            color: #ffffff;
+            font-size: 26px;
+            margin: 0px 20px;
+            width: auto;
+        }
+
+        .topbar .navbar button {
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 14px 30px;
+            border: 0px;
+            border-radius: 40px;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+
+        .topbar .navbar button:hover,
+        .topbar .navbar button:active,
+        .topbar .navbar button:focus {
+            background-color: #f2f2f2;
+        }
+
+        .spotify-playlists {
+            padding: 20px 40px;
+        }
+
+        .spotify-playlists h2 {
+            color: #ffffff;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .spotify-playlists .list {
+            display: flex;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        .spotify-playlists .list .item {
+            min-width: 140px;
+            width: 160px;
+            padding: 15px;
+            background-color: #181818;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all ease 0.4s;
+        }
+
+        .spotify-playlists .list .item:hover {
+            background-color: #252525;
+        }
+
+        .spotify-playlists .list .item img {
+            width: 100%;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .spotify-playlists .list .item .play {
+            position: relative;
+        }
+
+        .spotify-playlists .list .item .play .fa {
+            position: absolute;
+            right: 10px;
+            top: -60px;
+            padding: 18px;
+            background-color: #1db954;
+            border-radius: 100%;
+            opacity: 0;
+            transition: all ease 0.4s;
+        }
+
+        .spotify-playlists .list .item:hover .play .fa {
+            opacity: 1;
+            transform: translateY(-20px);
+        }
+
+        .spotify-playlists .list .item h4 {
+            color: #ffffff;
+            font-size: 14px;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .spotify-playlists .list .item p {
+            color: #989898;
+            font-size: 12px;
+            line-height: 20px;
+            font-weight: 600;
+        }
+
+        .spotify-playlists hr {
+            margin: 70px 0px 0px;
+            border-color: #636363;
+        }
+
+        .preview {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to right, #ae2896, #509bf5);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .preview h6 {
+            color: #ffffff;
+            text-transform: uppercase;
+            font-weight: 400;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .preview p {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .preview button {
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 14px 30px;
+            border: 0px;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+        .popup-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            color: white;
+            border-radius: 10px;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+        }
+        .red-heart {
+        color: red;
+    }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo">
+        <a href="#">
+            <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Green.png" alt="Logo">
+        </a>
+    </div>
+    <div class="navigation">
+        <ul>
+          <li>
+            <a href="index.html">
+              <span class="fa fa-home"></span>
+              <span>Home</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="#">
+              <span class="fa fa-search"></span>
+              <span>Search</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="#">
+              <span class="fa fas fa-book"></span>
+              <span>Your Library</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="navigation">
+        <ul>
+          <li>
+            <a href="#">
+              <span class="fa fas fa-plus-square"></span>
+              <span>Create Playlist</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="#">
+              <span class="fa fas fa-heart"></span>
+              <span>Liked Songs</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="policies">
+        <ul>
+          <li>
+            <a href="#">Spotify Working Clone Made By</a>
+          </li>
+          <li>
+          <a href="#" style="color: red;">
+            <span class="red-heart">&#x2764;</span> SANKET PUNDHIR &#x2764;
+        </a>
+    </li>
+        </ul>
+      </div>
+    </div>
+    <div class="popup-container" id="popup">
+        <p>This site is best viewed in desktop mode.</p>
+    </div>
+
+    <div class="main-container">
+      <div class="topbar">
+        <div class="prev-next-buttons">
+          <button type="button" class="fa fas fa-chevron-left"></button>
+          <button type="button" class="fa fas fa-chevron-right"></button>
+        </div>
+
+        <div class="navbar">
+          <ul>
+            <li>
+              <a href="https://open.spotify.com/">Premium</a>
+            </li>
+            <li>
+              <a href="https://open.spotify.com/">Support</a>
+            </li>
+            <li>
+              <a href="https://open.spotify.com/">Download</a>
+            </li>
+            <li class="divider">|</li>
+            <li>
+              <a href="https://www.spotify.com/us/signup">Sign Up</a>
+            </li>
+          </ul>
+          <button type="button"><a href="https://accounts.spotify.com/en/login">Log In</a></button>
+        </div>
+      </div>
+
+    
+
+      <div class="spotify-playlists">
+        <h2>Spotify Playlists</h2>
+        <div class="list">
+            <div class="item">
+                <audio id="audio1" src="Ikson - Lights (Vlog No Copyright Music).mp3"></audio>
+                <img src="https://img.freepik.com/free-vector/vlog-neon-sign-bright-text-with-letter-o-shape-play-button_1262-11931.jpg" />
+                <div class="play">
+                    <span class="fa fa-play"></span>
+                </div>
+                <h4>Ikson - Lights</h4>
+                <p>NOCOPYRIGHTSOUND - Ikson - Lights (Vlog No Copyright Music)</p>
+            </div>
+            <div class="item">
+                <audio id="audio2" src="Elektronomia - Sky High  Progressive House  NCS - Copyright Free Music.mp3"></audio>
+                <img src="data:image/jpeg;base64,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" />
+                <div class="play">
+                    <span class="fa fa-play"></span>
+                </div>
+                <h4>Elektronomia - Sky High</h4>
+                <p>NOCOPYRIGHTSOUND(NCS)</p>
+            </div>
+            <div class="item">
+                <audio id="audio3" src="NEFFEX - Cold [Copyright Free] No.60.mp3"></audio>
+                <img src="https://i1.sndcdn.com/artworks-yreMU6SlNNwDtIf6-5pUM5A-t500x500.jpg" />
+                <div class="play">
+                    <span class="fa fa-play"></span>
+                </div>
+                <h4>NEFFEX - Cold </h4>
+                <p>NEFFEX - Cold ❄️[Copyright Free] No.60</p>
+            </div>
+            <div class="item">
+                <audio id="audio4" src="Warriyo - Mortals (feat. Laura Brehm)  Future Trap  NCS - Copyright Free Music.mp3"></audio>
+                <img src="data:image/jpeg;base64,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" />
+                <div class="play">
+                    <span class="fa fa-play"></span>
+                </div>
+                <h4>Warriyo - Mortals</h4>
+                <p>NOCOPYRIGHTSOUND(NCS)</p>
+            </div>
+            <!--MORE similar <div class="item"> elements for other music tracks -->
+        </div>
+    </div>
+    
+    <script>
+        const items = document.querySelectorAll('.item');
+    
+        items.forEach((item, index) => {
+            const audio = document.getElementById(`audio${index + 1}`);
+            const playButton = item.querySelector('.play');
+    
+            playButton.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    playButton.innerHTML = '<span class="fa fa-pause"></span>';
+                } else {
+                    audio.pause();
+                    playButton.innerHTML = '<span class="fa fa-play"></span>';
+                }
+            });
+        });
+    </script>
+
+<script>
+    // Function to show the pop-up for 3 seconds
+    function showPopup() {
+        var popup = document.getElementById('popup');
+        popup.style.display = 'block';
+        setTimeout(function(){
+            popup.style.display = 'none';
+        }, 3000); // 3000 milliseconds = 3 seconds
+    }
+
+    // Check if the screen size is small and then show the pop-up
+    if (window.innerWidth <= 768) {
+        showPopup();
+    }
+</script>
+
+
+    <script src="https://kit.fontawesome.com/23cecef777.js" crossorigin="anonymous"></script>
+    </body>
+    </html>
